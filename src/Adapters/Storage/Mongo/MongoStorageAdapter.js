@@ -713,6 +713,10 @@ export class MongoStorageAdapter implements StorageAdapter {
             'Tried to ensure field uniqueness for a class that already has duplicates.'
           );
         }
+        if(error.code === 86) {
+            console.log(`Parse server wants us to drop the index for ${className}.${fieldNames} so they can recreate it. Not sure if we should.`);
+            return Promise.resolve();
+        }
         throw error;
       })
       .catch(err => this.handleError(err));
