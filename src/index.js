@@ -15,6 +15,7 @@ import { ParseGraphQLServer } from './GraphQL/ParseGraphQLServer';
 
 // Factory function
 const _ParseServer = function (options: ParseServerOptions) {
+  console.log('using forked branch: https://github.com/parse-community/parse-server');
   const server = new ParseServer(options);
   return server;
 };
