@@ -17,7 +17,6 @@ export default class MongoCollection {
     query,
     { skip, limit, sort, keys, maxTimeMS, readPreference, hint, caseInsensitive, explain } = {}
   ) {
-    console.log('*** find ***')
     // Support for Full Text Search - $text
     if (keys && keys.$score) {
       delete keys.$score;
