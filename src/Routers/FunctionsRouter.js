@@ -188,7 +188,7 @@ export class FunctionsRouter extends PromiseRouter {
               success: resolve,
               error: reject,
             };
-            theFunction(request, _response);
+            return theFunction(request, _response);
           });
         })
         .then(success, error);
