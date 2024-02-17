@@ -182,7 +182,12 @@ export class FunctionsRouter extends PromiseRouter {
           return triggers.maybeRunValidator(request, functionName, req.auth);
         })
         .then(() => {
-          return theFunction(request);
+          //re-added the response to cloud functions
+          var _response = {
+            success: (...args) => Promise.resolve(...args),
+            error: (...args) => Promise.error(...args),
+          };
+          return theFunction(request, _response);
         })
         .then(success, error);
     });
