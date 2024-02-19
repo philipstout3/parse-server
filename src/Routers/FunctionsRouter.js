@@ -183,13 +183,14 @@ export class FunctionsRouter extends PromiseRouter {
         })
         .then(() => {
           //re-added the response to cloud functions
-          return new Promise((resolve, reject) => {
-            var _response = {
-              success: resolve,
-              error: reject,
-            };
-            return theFunction(request, _response);
-          });
+          return theFunction(request, { success, error });
+          //   return new Promise((resolve, reject) => {
+          //     var _response = {
+          //       success: resolve,
+          //       error: reject
+          //     };
+          //     return theFunction(request, _response);
+          //   });
         })
         .then(success, error);
     });
