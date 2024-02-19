@@ -82,7 +82,9 @@ export class FunctionsRouter extends PromiseRouter {
       process.nextTick(() => {
         Promise.resolve()
           .then(() => {
-            return jobFunction(request);
+            var _status = { success: jobHandler.setSucceeded, error: jobHandler.setFailed };
+            // return jobFunction(request);
+            return jobFunction(request, _status);
           })
           .then(
             result => {
