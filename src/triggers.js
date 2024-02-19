@@ -898,7 +898,8 @@ export function maybeRunTrigger(
         if (request.skipWithMasterKey) {
           return Promise.resolve();
         }
-        const promise = trigger(request);
+        const promise = trigger(request, { success, error }); //custom code to pass response object to triggers
+        // const promise = trigger(request);
         if (
           triggerType === Types.afterSave ||
           triggerType === Types.afterDelete ||

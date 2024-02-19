@@ -84,7 +84,7 @@ export class FunctionsRouter extends PromiseRouter {
           .then(() => {
             var _status = { success: jobHandler.setSucceeded, error: jobHandler.setFailed };
             // return jobFunction(request);
-            return jobFunction(request, _status);
+            return jobFunction(request, _status); //custom code for adding status to jobs
           })
           .then(
             result => {
@@ -185,7 +185,7 @@ export class FunctionsRouter extends PromiseRouter {
         })
         .then(() => {
           //re-added the response to cloud functions
-          return theFunction(request, { success, error });
+          return theFunction(request, { success, error }); //custom code for adding response to cloud functions
         })
         .then(success, error);
     });
