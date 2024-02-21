@@ -48,7 +48,6 @@
     "mongodb": "5.9.0",
     "mustache": "4.2.0",
     "otpauth": "9.1.2",
-    "parse": "github:philipstout3/Parse-SDK-JS",
     "path-to-regexp": "6.2.1",
     "pg-monitor": "2.0.0",
     "pg-promise": "11.5.0",
