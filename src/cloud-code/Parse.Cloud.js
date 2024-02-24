@@ -764,6 +764,9 @@ ParseCloud.afterLiveQueryEvent = function (parseClass, handler, validationHandle
   );
 };
 
+//custom code for .httpRequest method
+ParseCloud.legacyHttpRequest = require('../request');
+
 ParseCloud._removeAllHooks = () => {
   triggers._unregisterAll();
   const config = Config.get(Parse.applicationId);
