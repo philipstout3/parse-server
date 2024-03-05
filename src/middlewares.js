@@ -434,7 +434,13 @@ export function allowCrossDomain(appId) {
     res.header('Access-Control-Allow-Origin', allowOrigins);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', allowHeaders);
-    res.header('Access-Control-Expose-Headers', 'X-Parse-Job-Status-Id, X-Parse-Push-Status-Id');
+    res.header(
+      'Access-Control-Expose-Headers',
+      'Content-Encoding, X-Parse-Job-Status-Id, X-Parse-Push-Status-Id'
+    );
+    //CUSTOM CODE: 'access-control-expose-headers': 'Content-Encoding, X-Parse-Job-Status-Id, X-Parse-Push-Status-Id',
+    //https://github.com/parse-community/Parse-SDK-JS/issues/2059
+
     // intercept OPTIONS method
     if ('OPTIONS' == req.method) {
       res.sendStatus(200);
