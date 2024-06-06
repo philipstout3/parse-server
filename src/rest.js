@@ -157,6 +157,7 @@ function del(config, auth, className, objectId, context) {
 // Returns a promise for a {response, status, location} object.
 function create(config, auth, className, restObject, clientSDK, context) {
   enforceRoleSecurity('create', className, auth);
+  console.log('context:', context);
   var write = new RestWrite(config, auth, className, null, restObject, null, clientSDK, context);
   return write.execute();
 }
