@@ -128,6 +128,7 @@ RestWrite.prototype.partial_execute = function () {
       return this.setRequiredFieldsIfNeeded();
     })
     .then(() => {
+      this.response = { response: this.data };
       // Append the authDataResponse if exists
       if (this.authDataResponse) {
         if (this.response && this.response.response) {
