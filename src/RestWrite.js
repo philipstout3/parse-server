@@ -90,6 +90,57 @@ function RestWrite(config, auth, className, query, data, originalData, clientSDK
   };
 }
 
+// custom code for mockSave written Jun 6 2024
+RestWrite.prototype.partial_execute = function () {
+  return Promise.resolve()
+    .then(() => {
+      return this.getUserAndRoleACL();
+    })
+    .then(() => {
+      return this.validateClientClassCreation();
+    })
+    .then(() => {
+      return this.handleInstallation();
+    })
+    .then(() => {
+      return this.handleSession();
+    })
+    .then(() => {
+      return this.validateAuthData();
+    })
+    .then(() => {
+      return this.checkRestrictedFields();
+    })
+    .then(() => {
+      return this.runBeforeSaveTrigger();
+    })
+    .then(() => {
+      return this.ensureUniqueAuthDataId();
+    })
+    .then(() => {
+      return this.deleteEmailResetTokenIfNeeded();
+    })
+    .then(() => {
+      return this.validateSchema();
+    })
+    .then(schemaController => {
+      this.validSchemaController = schemaController;
+      return this.setRequiredFieldsIfNeeded();
+    })
+    .then(() => {
+      // Append the authDataResponse if exists
+      if (this.authDataResponse) {
+        if (this.response && this.response.response) {
+          this.response.response.authDataResponse = this.authDataResponse;
+        }
+      }
+      if (this.storage.rejectSignup && this.config.preventSignupWithUnverifiedEmail) {
+        throw new Parse.Error(Parse.Error.EMAIL_NOT_FOUND, 'User email is not verified.');
+      }
+      return this.response;
+    });
+};
+
 // A convenient method to perform all the steps of processing the
 // write, in order.
 // Returns a promise for a {response, status, location} object.
@@ -944,10 +995,16 @@ RestWrite.prototype.createSessionTokenIfNeeded = async function () {
     // Get verification conditions which can be booleans or functions; the purpose of this async/await
     // structure is to avoid unnecessarily executing subsequent functions if previous ones fail in the
     // conditional statement below, as a developer may decide to execute expensive operations in them
-    const verifyUserEmails = async () => this.config.verifyUserEmails === true || (typeof this.config.verifyUserEmails === 'function' && await Promise.resolve(this.config.verifyUserEmails(request)) === true);
-    const preventLoginWithUnverifiedEmail = async () => this.config.preventLoginWithUnverifiedEmail === true || (typeof this.config.preventLoginWithUnverifiedEmail === 'function' && await Promise.resolve(this.config.preventLoginWithUnverifiedEmail(request)) === true);
+    const verifyUserEmails = async () =>
+      this.config.verifyUserEmails === true ||
+      (typeof this.config.verifyUserEmails === 'function' &&
+        (await Promise.resolve(this.config.verifyUserEmails(request))) === true);
+    const preventLoginWithUnverifiedEmail = async () =>
+      this.config.preventLoginWithUnverifiedEmail === true ||
+      (typeof this.config.preventLoginWithUnverifiedEmail === 'function' &&
+        (await Promise.resolve(this.config.preventLoginWithUnverifiedEmail(request))) === true);
     // If verification is required
-    if (await verifyUserEmails() && await preventLoginWithUnverifiedEmail()) {
+    if ((await verifyUserEmails()) && (await preventLoginWithUnverifiedEmail())) {
       this.storage.rejectSignup = true;
       return;
     }

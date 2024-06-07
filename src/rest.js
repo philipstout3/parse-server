@@ -157,9 +157,13 @@ function del(config, auth, className, objectId, context) {
 // Returns a promise for a {response, status, location} object.
 function create(config, auth, className, restObject, clientSDK, context) {
   enforceRoleSecurity('create', className, auth);
-  console.log('context:', context);
   var write = new RestWrite(config, auth, className, null, restObject, null, clientSDK, context);
-  return write.execute();
+  if (context && context.is_mock_save) {
+    console.log('execute partial');
+    return write.partial_execute();
+  } else {
+    return write.execute();
+  }
 }
 
 // Returns a promise that contains the fields of the update that the
@@ -195,17 +199,32 @@ function update(config, auth, className, restWhere, restObject, clientSDK, conte
       if (results && results.length) {
         originalRestObject = results[0];
       }
-      return new RestWrite(
-        config,
-        auth,
-        className,
-        restWhere,
-        restObject,
-        originalRestObject,
-        clientSDK,
-        context,
-        'update'
-      ).execute();
+      //custom code addded jun 6 2024
+      if (context && context.is_mock_save) {
+        return new RestWrite(
+          config,
+          auth,
+          className,
+          restWhere,
+          restObject,
+          originalRestObject,
+          clientSDK,
+          context,
+          'update'
+        ).partial_execute();
+      } else {
+        return new RestWrite(
+          config,
+          auth,
+          className,
+          restWhere,
+          restObject,
+          originalRestObject,
+          clientSDK,
+          context,
+          'update'
+        ).execute();
+      }
     })
     .catch(error => {
       handleSessionMissingError(error, className, auth);
