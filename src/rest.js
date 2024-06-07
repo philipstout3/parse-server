@@ -159,7 +159,6 @@ function create(config, auth, className, restObject, clientSDK, context) {
   enforceRoleSecurity('create', className, auth);
   var write = new RestWrite(config, auth, className, null, restObject, null, clientSDK, context);
   if (context && context.is_mock_save) {
-    console.log('execute partial');
     return write.partial_execute();
   } else {
     return write.execute();
