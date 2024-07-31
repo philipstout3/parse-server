@@ -1,4 +1,3 @@
-/*
 const ldapjs = require('ldapjs');
 const Parse = require('parse/node').Parse;
 
@@ -111,4 +110,3 @@ module.exports = {
   validateAppId,
   validateAuthData,
 };
-*/

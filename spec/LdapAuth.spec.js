@@ -1,4 +1,3 @@
-/*
 const ldap = require('../lib/Adapters/Auth/ldap');
 const mockLdapServer = require('./support/MockLdapServer');
 const fs = require('fs');
@@ -211,4 +210,3 @@ describe('Ldap Auth', () => {
     server.close(done);
   });
 });
-*/

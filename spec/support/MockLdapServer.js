@@ -1,4 +1,3 @@
-/*
 const ldapjs = require('ldapjs');
 const fs = require('fs');
 
@@ -53,4 +52,3 @@ function newServer(port, dn, provokeSearchError = false, ssl = false) {
 }
 
 module.exports = newServer;
-*/
