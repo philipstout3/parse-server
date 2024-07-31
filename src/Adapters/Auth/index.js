@@ -26,7 +26,7 @@ const oauth2 = require('./oauth2');
 const phantauth = require('./phantauth');
 const microsoft = require('./microsoft');
 const keycloak = require('./keycloak');
-const ldap = require('./ldap');
+//const ldap = require('./ldap');
 
 const anonymous = {
   validateAuthData: () => {
@@ -62,7 +62,7 @@ const providers = {
   phantauth,
   microsoft,
   keycloak,
-  ldap,
+  //ldap,
 };
 
 // Indexed auth policies
